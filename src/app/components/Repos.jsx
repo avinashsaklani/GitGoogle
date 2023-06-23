@@ -1,5 +1,5 @@
 "use client"
-import {  useToast, Text, Flex, Spinner, Badge } from '@/app/chakra'
+import {  useToast, Text, Flex, Spinner, Badge, Button } from '@/app/chakra'
 import { Link } from '@chakra-ui/next-js';
 import React, { useEffect, useState } from 'react'
 
@@ -8,7 +8,7 @@ const Repos = ({reposUrl}) => {
     const [repos, setRepos] = useState([]);
     const[loading,setLoading] = useState(false);
     const[showMore,setShowMore] = useState(false);
-    console.log("repos is here: ",repos);
+    // console.log("repos is here: ",repos);
     useEffect(()=>{
 const fetchRepos = async () =>{
     try{
@@ -51,8 +51,10 @@ fetchRepos();
             <Spinner size={"xl"} my={4}/>
         </Flex>
     )}
-    {repos.map((repo)=>(
-        <Flex key={repo.id} padding={4} bg={"whiteAlpha.200"}
+    {repos.sort((a,b)=> b.stargazers_count - a.stargazers_count).map((repo,idx)=>{
+        if(idx>4 && !showMore) return null;
+        return (
+            <Flex key={repo.id} padding={4} bg={"whiteAlpha.200"}
         _hover={{bg: "whiteAlpha.400"}}
         my={4}
         px={10}
@@ -91,9 +93,20 @@ fetchRepos();
                     Watchers: {repo.watchers_count}
                 </Badge>
             </Flex>
-
         </Flex>
-    ))}
+        )
+    })}
+    {showMore && (
+        <Flex justifyContent={"center"} my={4}>
+            <Button size="md" colorScheme='whatsapp' onClick={()=> setShowMore(false)}>Show Less</Button>
+        </Flex>
+    )}
+    {!showMore && repos.length >5 && (
+        <Flex justifyContent={"center"} my={4}>
+            <Button size="md" colorScheme='whatsapp' onClick={()=> setShowMore(true)}>Show More</Button>
+        </Flex>
+
+    )}
     </>
   )
 }
