@@ -40,7 +40,7 @@ This project utilizes the following technologies:
 
 ## Contributing
 
-We welcome contributions from the community. To contribute to [Project Name], follow these steps:
+We welcome contributions from the community. To contribute to this project, follow these steps:
 
 1. Fork the repository.
 2. Create a new branch for your feature: `git checkout -b feature-name`
